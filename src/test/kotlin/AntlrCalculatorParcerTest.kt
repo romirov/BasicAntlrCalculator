@@ -1,30 +1,30 @@
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import parser.AntlrCalculatorParcer
+import parser.AntlrCalculatorParser
 import kotlin.test.assertNotNull
 
 class AntlrCalculatorParcerTest {
   @Test
   fun parserTestsWithotException(){
-    assertNotNull(AntlrCalculatorParcer.parse("2 * 2"))
-    assertNotNull(AntlrCalculatorParcer.parse("2 / 2"))
-    assertNotNull(AntlrCalculatorParcer.parse("2 + 2"))
-    assertNotNull(AntlrCalculatorParcer.parse("2 - 2"))
-    assertNotNull(AntlrCalculatorParcer.parse("(2 + 2) * 2"))
-    assertNotNull(AntlrCalculatorParcer.parse("(2 + 2) * (2 / 2)"))
-    assertNotNull(AntlrCalculatorParcer.parse("((2 + 2) * (2 / 2)) - 2"))
-    assertNotNull(AntlrCalculatorParcer.parse("(2 ^ 2 * (2 / 2)) - 2"))
+    assertNotNull(AntlrCalculatorParser(stringToParse = "2 * 2").parseTree)
+    assertNotNull(AntlrCalculatorParser(stringToParse = "2 / 2").parseTree)
+    assertNotNull(AntlrCalculatorParser(stringToParse = "2 + 2").parseTree)
+    assertNotNull(AntlrCalculatorParser(stringToParse = "2 - 2").parseTree)
+    assertNotNull(AntlrCalculatorParser(stringToParse = "(2 + 2) * 2").parseTree)
+    assertNotNull(AntlrCalculatorParser(stringToParse = "(2 + 2) * (2 / 2)").parseTree)
+    assertNotNull(AntlrCalculatorParser(stringToParse = "((2 + 2) * (2 / 2)) - 2").parseTree)
+    assertNotNull(AntlrCalculatorParser(stringToParse = "(2 ^ 2 * (2 / 2)) - 2").parseTree)
   }
 
   @Test
   fun parserTestsWithException(){
-    assertThrows<Exception> {  AntlrCalculatorParcer.parse("2 /* 2") }
-    assertThrows<Exception> {  AntlrCalculatorParcer.parse("2 / (2 + 2") }
-    assertThrows<Exception> {  AntlrCalculatorParcer.parse("2 = 2") }
-    assertThrows<Exception> {  AntlrCalculatorParcer.parse("2 > 2") }
-    assertThrows<Exception> {  AntlrCalculatorParcer.parse("2 ^> 2") }
-    assertThrows<Exception> {  AntlrCalculatorParcer.parse("2 < 2 =") }
-    assertThrows<Exception> {  AntlrCalculatorParcer.parse("2 + 2 = 4") }
-    assertThrows<Exception> {  AntlrCalculatorParcer.parse("(2 + 2) * 2 / 2)") }
+    assertThrows<Exception> {  AntlrCalculatorParser(stringToParse = "2 /* 2").parseTree }
+    assertThrows<Exception> {  AntlrCalculatorParser(stringToParse = "2 / (2 + 2").parseTree }
+    assertThrows<Exception> {  AntlrCalculatorParser(stringToParse = "2 = 2").parseTree }
+    assertThrows<Exception> {  AntlrCalculatorParser(stringToParse = "2 > 2").parseTree }
+    assertThrows<Exception> {  AntlrCalculatorParser(stringToParse = "2 ^> 2").parseTree }
+    assertThrows<Exception> {  AntlrCalculatorParser(stringToParse = "2 < 2 =").parseTree }
+    assertThrows<Exception> {  AntlrCalculatorParser(stringToParse = "2 + 2 = 4").parseTree }
+    assertThrows<Exception> {  AntlrCalculatorParser(stringToParse = "(2 + 2) * 2 / 2)").parseTree }
   }
 }
