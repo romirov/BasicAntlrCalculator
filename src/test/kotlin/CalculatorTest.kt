@@ -1,17 +1,16 @@
+import org.antlr.v4.runtime.tree.ParseTreeWalker
 import org.junit.jupiter.api.Test
-import parser.AntlrCalculatorParser
-import parser.listener.CalculatorParseTreeWalkerListener
-import parser.walker.CalculatorParseTreeWalker
+import parser.ExpressionParser
+import parser.listener.CalculatorWalkerListener
 
 class CalculatorTest {
   @Test
   fun simpleTest(){
-    val str = "(2 + 2) * 1"
-    val antlrCalculatorParcer = AntlrCalculatorParser(stringToParse = str)
-    val grammar = antlrCalculatorParcer.grammar
-    val parcer = antlrCalculatorParcer.parserInterpreter
-    val parseTree = antlrCalculatorParcer.parseTree
-    val walker = CalculatorParseTreeWalker()
-    walker.walk(CalculatorParseTreeWalkerListener(), parseTree)
+    val str = "(2 + (2 + 2)) * (1 - 1)"
+    val parseTree = ExpressionParser.parse(stringToParse = str)
+    val walker = ParseTreeWalker.DEFAULT
+    val listener = CalculatorWalkerListener()
+    walker.walk(listener, parseTree)
+    listener.getResult()
   }
 }

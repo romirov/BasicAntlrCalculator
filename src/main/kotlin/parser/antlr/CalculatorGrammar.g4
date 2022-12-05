@@ -1,23 +1,27 @@
-grammar calculatorGrammar;
+grammar CalculatorGrammar;
 
 calculation
    : expression* EOF
    ;
 
 expression
-   : expression POW expression
-   | expression (TIMES | DIV) expression
-   | expression (PLUS | MINUS) expression
-   | LPAREN expression RPAREN
+   : expression op=POW expression
+   | expression op=(MULT | DIV) expression
+   | expression op=(PLUS | MINUS) expression
+   | paren_expression
    | number
    ;
+
+paren_expression
+  : LPAREN expression RPAREN
+  ;
 
 number
    : SNUMBER
    ;
 
 SNUMBER
-  :SIGN? NUMBER
+  : SIGN? NUMBER
   ;
 
 fragment NUMBER
@@ -25,8 +29,8 @@ fragment NUMBER
    ;
 
 fragment SIGN
-   : ('+' | '-')
-   ;
+  : ('+' | '-')
+  ;
 
 LPAREN
    : '('
@@ -44,7 +48,7 @@ MINUS
    : '-'
    ;
 
-TIMES
+MULT
    : '*'
    ;
 
