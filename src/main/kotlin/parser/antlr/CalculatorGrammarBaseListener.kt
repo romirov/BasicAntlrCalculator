@@ -31,7 +31,7 @@ open class CalculatorGrammarBaseListener : CalculatorGrammarListener {
    *
    * The default implementation does nothing.
    */
-  override fun enterExpression(ctx: CalculatorGrammarParser.ExpressionContext?) {}
+  override fun enterNumberInExpression(ctx: NumberInExpressionContext?) {}
 
   /**
    * {@inheritDoc}
@@ -39,7 +39,55 @@ open class CalculatorGrammarBaseListener : CalculatorGrammarListener {
    *
    * The default implementation does nothing.
    */
-  override fun exitExpression(ctx: CalculatorGrammarParser.ExpressionContext?) {}
+  override fun exitNumberInExpression(ctx: NumberInExpressionContext?) {}
+
+  /**
+   * {@inheritDoc}
+   *
+   *
+   * The default implementation does nothing.
+   */
+  override fun enterAdditionOrSubtraction(ctx: AdditionOrSubtractionContext?) {}
+
+  /**
+   * {@inheritDoc}
+   *
+   *
+   * The default implementation does nothing.
+   */
+  override fun exitAdditionOrSubtraction(ctx: AdditionOrSubtractionContext?) {}
+
+  /**
+   * {@inheritDoc}
+   *
+   *
+   * The default implementation does nothing.
+   */
+  override fun enterMultiplicationOrDivision(ctx: MultiplicationOrDivisionContext?) {}
+
+  /**
+   * {@inheritDoc}
+   *
+   *
+   * The default implementation does nothing.
+   */
+  override fun exitMultiplicationOrDivision(ctx: MultiplicationOrDivisionContext?) {}
+
+  /**
+   * {@inheritDoc}
+   *
+   *
+   * The default implementation does nothing.
+   */
+  override fun enterParentheses(ctx: ParenthesesContext?) {}
+
+  /**
+   * {@inheritDoc}
+   *
+   *
+   * The default implementation does nothing.
+   */
+  override fun exitParentheses(ctx: ParenthesesContext?) {}
 
   /**
    * {@inheritDoc}
@@ -72,6 +120,22 @@ open class CalculatorGrammarBaseListener : CalculatorGrammarListener {
    * The default implementation does nothing.
    */
   override fun exitNumber(ctx: NumberContext?) {}
+
+  /**
+   * {@inheritDoc}
+   *
+   *
+   * The default implementation does nothing.
+   */
+  override fun enterVariable(ctx: CalculatorGrammarParser.VariableContext?) {}
+
+  /**
+   * {@inheritDoc}
+   *
+   *
+   * The default implementation does nothing.
+   */
+  override fun exitVariable(ctx: CalculatorGrammarParser.VariableContext?) {}
 
   /**
    * {@inheritDoc}

@@ -2,61 +2,80 @@ package parser.listener
 
 import CalculatorGrammarBaseListener
 import CalculatorGrammarParser
-import org.antlr.v4.runtime.ParserRuleContext
-import org.antlr.v4.runtime.tree.ErrorNode
-import org.antlr.v4.runtime.tree.TerminalNode
 import org.apache.logging.log4j.LogManager
 
 class CalculatorWalkerListener: CalculatorGrammarBaseListener() {
   private val logger = LogManager.getLogger()
-  private var stringToCalc = ""
-  private var result = ""
-  val parentExpressionMap = mutableMapOf<String, String>()
-  fun getResult(): String {
-    parentExpressionMap.forEach { t, u ->  logger.info("PE: $t ===== $u")}
-    return result
+  private val values = mutableListOf<Double>()
+  private lateinit var expr:String
+  private val parenthesesValuesMap = mutableMapOf<String, String>()
+  private var isCalculationsMade = false
+
+  fun getRezult(): String {
+    parenthesesValuesMap.forEach {key, value ->
+      expr = expr.replace(key,value)
+    }
+    parenthesesValuesMap.clear()
+    logger.info(expr)
+    return expr
   }
 
-  override fun enterCalculation(ctx: CalculatorGrammarParser.CalculationContext?) {
-    stringToCalc = ctx?.expression(0)?.text ?: ""
+  override fun enterCalculation(ctx: CalculatorGrammarParser.CalculationContext?){
+    ctx?.text?.let { expr = it }
   }
 
-  override fun exitCalculation(ctx: CalculatorGrammarParser.CalculationContext?) {}
+  override fun exitNumberInExpression(ctx: CalculatorGrammarParser.NumberInExpressionContext?) {
+    ctx?.number()?.text?.let { value -> values.add(value.toDouble()) }
+  }
 
-  override fun enterExpression(ctx: CalculatorGrammarParser.ExpressionContext?) {
-    if(ctx?.childCount == 3){
-      if(ctx.expression(0).getChild(0) is CalculatorGrammarParser.NumberContext &&
-          ctx.expression(1).getChild(0) is CalculatorGrammarParser.NumberContext){
-        val a = (ctx.expression(0).getChild(0) as CalculatorGrammarParser.NumberContext).text.toInt()
-        val b = (ctx.expression(1).getChild(0) as CalculatorGrammarParser.NumberContext).text.toInt()
-        when(ctx.op?.type){
-          CalculatorGrammarParser.POW -> parentExpressionMap.put("$a^$b", (Math.pow(a.toDouble(), b.toDouble())).toString())
-          CalculatorGrammarParser.MULT -> parentExpressionMap.put("$a*$b", (a * b).toString())
-          CalculatorGrammarParser.DIV -> parentExpressionMap.put("$a/$b", (a / b).toString())
-          CalculatorGrammarParser.PLUS -> parentExpressionMap.put("$a+$b", (a + b).toString())
-          CalculatorGrammarParser.MINUS -> parentExpressionMap.put("$a-$b", (a - b).toString())
-        }
-      }else{
-        ctx.expression().let { parentExpressionMap.put(it.get(0).text, "") }
+  override fun exitParen_expression(ctx: CalculatorGrammarParser.Paren_expressionContext?) {
+    if (isCalculationsMade) {
+      ctx?.text?.let { parenthesesValuesMap.put(it, values.last().toString()) }
+      isCalculationsMade = false
+    }
+    if (values.isNotEmpty())
+      values.removeLast()
+  }
+
+  override fun exitCalculation(ctx: CalculatorGrammarParser.CalculationContext?) {
+    if (isCalculationsMade) {
+      ctx?.text?.let { parenthesesValuesMap.put(it, values.last().toString()) }
+      isCalculationsMade = false
+    }
+    if (values.isNotEmpty())
+      values.removeLast()
+  }
+
+  override fun exitMultiplicationOrDivision(ctx: CalculatorGrammarParser.MultiplicationOrDivisionContext?) {
+    if (values.size > 1) {
+      val valuesIterator = values.iterator()
+      val right = valuesIterator.next()
+      valuesIterator.remove()
+      val left = valuesIterator.next()
+      valuesIterator.remove()
+
+      when (ctx?.operation?.type) {
+        CalculatorGrammarParser.MUL -> values.add(right * left)
+        CalculatorGrammarParser.DIV -> values.add(right / left)
       }
+
+      isCalculationsMade = true
     }
   }
 
-  override fun exitExpression(ctx: CalculatorGrammarParser.ExpressionContext?) {}
+  override fun exitAdditionOrSubtraction(ctx: CalculatorGrammarParser.AdditionOrSubtractionContext?) {
+    if (values.size > 1) {
+      val valuesIterator = values.iterator()
+      val right = valuesIterator.next()
+      valuesIterator.remove()
+      val left = valuesIterator.next()
+      valuesIterator.remove()
+      when (ctx?.operation?.type) {
+        CalculatorGrammarParser.ADD -> values.add(right + left)
+        CalculatorGrammarParser.SUB -> values.add(right - left)
+      }
 
-  override fun enterParen_expression(ctx: CalculatorGrammarParser.Paren_expressionContext?) {}
-
-  override fun exitParen_expression(ctx: CalculatorGrammarParser.Paren_expressionContext?) {}
-
-  override fun enterNumber(ctx: CalculatorGrammarParser.NumberContext?) {}
-
-  override fun exitNumber(ctx: CalculatorGrammarParser.NumberContext?) {}
-
-  override fun enterEveryRule(ctx: ParserRuleContext) {}
-
-  override fun exitEveryRule(ctx: ParserRuleContext) {}
-
-  override fun visitTerminal(node: TerminalNode) {}
-
-  override fun visitErrorNode(node: ErrorNode) {}
+      isCalculationsMade = true
+    }
+  }
 }

@@ -1,36 +1,47 @@
 grammar CalculatorGrammar;
 
 calculation
-   : expression* EOF
+   : expression*
    ;
 
+/*
+ * The order in which expressions are evaluated
+ * is determined by the order in which possible
+ * matching rules are defined.
+ *
+ * Multiplication and division are on the
+ * same precedence level, so they are grouped.
+ * The same goes for addition and subtraction.
+ *
+ * Labels (e.g. "# Parentheses") are added to each rule
+ * to provide context to which rule is being parsed.
+ * This is can be used in a Listener or Visitor
+ * to allow for separate control over Listener or Visitor actions.
+ *
+ * Likewise, inner labels (e.g. "left_expr=expression")
+ * can be added to child nodes of the rule.
+ * This makes them identifiable in a
+ * Listener's or Visitor's parsing of the rule,
+ * allowing for even more fine-grained control.
+ */
 expression
-   : expression op=POW expression
-   | expression op=(MULT | DIV) expression
-   | expression op=(PLUS | MINUS) expression
-   | paren_expression
-   | number
+   : paren_expression                                                                           # Parentheses
+   | left_expr=expression operation=(MUL | DIV) right_expr=expression                           # MultiplicationOrDivision
+   | left_expr=expression operation=(ADD | SUB) right_expr=expression                           # AdditionOrSubtraction
+   | number                                                                                     # NumberInExpression
    ;
 
 paren_expression
-  : LPAREN expression RPAREN
-  ;
+    : LPAREN inner=expression RPAREN
+    ;
 
 number
-   : SNUMBER
+   : ('+' | '-')* NUMBER
    ;
 
-SNUMBER
-  : SIGN? NUMBER
-  ;
-
-fragment NUMBER
-   : ('0' .. '9') + ('.' ('0' .. '9') +)?
+NUMBER
+   : ('0' .. '9')+ ('.' ('0' .. '9') +)?
    ;
-
-fragment SIGN
-  : ('+' | '-')
-  ;
 
 LPAREN
    : '('
@@ -40,15 +51,7 @@ RPAREN
    : ')'
    ;
 
-PLUS
-   : '+'
-   ;
-
-MINUS
-   : '-'
-   ;
-
-MULT
+MUL
    : '*'
    ;
 
@@ -56,14 +59,18 @@ DIV
    : '/'
    ;
 
+ADD
+   : '+'
+   ;
+
+SUB
+   : '-'
+   ;
+
 POINT
    : '.'
    ;
 
-POW
-   : '^'
-   ;
-
 WS
-   : [ \r\n\t] + -> skip
+   : [ \r\n\t]+ -> skip
    ;

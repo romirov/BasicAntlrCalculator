@@ -19,16 +19,60 @@ interface CalculatorGrammarListener : ParseTreeListener {
   fun exitCalculation(ctx: CalculationContext?)
 
   /**
-   * Enter a parse tree produced by [CalculatorGrammarParser.expression].
+   * Enter a parse tree produced by the `NumberInExpression`
+   * labeled alternative in [CalculatorGrammarParser.expression].
    * @param ctx the parse tree
    */
-  fun enterExpression(ctx: CalculatorGrammarParser.ExpressionContext?)
+  fun enterNumberInExpression(ctx: NumberInExpressionContext?)
 
   /**
-   * Exit a parse tree produced by [CalculatorGrammarParser.expression].
+   * Exit a parse tree produced by the `NumberInExpression`
+   * labeled alternative in [CalculatorGrammarParser.expression].
    * @param ctx the parse tree
    */
-  fun exitExpression(ctx: CalculatorGrammarParser.ExpressionContext?)
+  fun exitNumberInExpression(ctx: NumberInExpressionContext?)
+
+  /**
+   * Enter a parse tree produced by the `AdditionOrSubtraction`
+   * labeled alternative in [CalculatorGrammarParser.expression].
+   * @param ctx the parse tree
+   */
+  fun enterAdditionOrSubtraction(ctx: AdditionOrSubtractionContext?)
+
+  /**
+   * Exit a parse tree produced by the `AdditionOrSubtraction`
+   * labeled alternative in [CalculatorGrammarParser.expression].
+   * @param ctx the parse tree
+   */
+  fun exitAdditionOrSubtraction(ctx: AdditionOrSubtractionContext?)
+
+  /**
+   * Enter a parse tree produced by the `MultiplicationOrDivision`
+   * labeled alternative in [CalculatorGrammarParser.expression].
+   * @param ctx the parse tree
+   */
+  fun enterMultiplicationOrDivision(ctx: MultiplicationOrDivisionContext?)
+
+  /**
+   * Exit a parse tree produced by the `MultiplicationOrDivision`
+   * labeled alternative in [CalculatorGrammarParser.expression].
+   * @param ctx the parse tree
+   */
+  fun exitMultiplicationOrDivision(ctx: MultiplicationOrDivisionContext?)
+
+  /**
+   * Enter a parse tree produced by the `Parentheses`
+   * labeled alternative in [CalculatorGrammarParser.expression].
+   * @param ctx the parse tree
+   */
+  fun enterParentheses(ctx: ParenthesesContext?)
+
+  /**
+   * Exit a parse tree produced by the `Parentheses`
+   * labeled alternative in [CalculatorGrammarParser.expression].
+   * @param ctx the parse tree
+   */
+  fun exitParentheses(ctx: ParenthesesContext?)
 
   /**
    * Enter a parse tree produced by [CalculatorGrammarParser.paren_expression].
@@ -53,4 +97,16 @@ interface CalculatorGrammarListener : ParseTreeListener {
    * @param ctx the parse tree
    */
   fun exitNumber(ctx: NumberContext?)
+
+  /**
+   * Enter a parse tree produced by [CalculatorGrammarParser.variable].
+   * @param ctx the parse tree
+   */
+  fun enterVariable(ctx: CalculatorGrammarParser.VariableContext?)
+
+  /**
+   * Exit a parse tree produced by [CalculatorGrammarParser.variable].
+   * @param ctx the parse tree
+   */
+  fun exitVariable(ctx: CalculatorGrammarParser.VariableContext?)
 }
