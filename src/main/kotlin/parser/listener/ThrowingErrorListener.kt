@@ -1,12 +1,12 @@
 package parser.listener
 
+import mu.KLogging
 import org.antlr.v4.runtime.*
-import org.apache.logging.log4j.LogManager
 import parser.exception.InlineRecognitionException
 import parser.exception.SyntaxError
 
 class ThrowingErrorListener: BaseErrorListener() {
-  private val logger = LogManager.getLogger()
+  private val logger = KLogging().logger
 
   override fun syntaxError(
     recognizer: Recognizer<*, *>?,

@@ -2,8 +2,8 @@ package parser.listener
 
 import CalculatorGrammarBaseListener
 import CalculatorGrammarParser
+import mu.KotlinLogging
 import org.antlr.v4.runtime.RuleContext
-import org.apache.logging.log4j.LogManager
 
 class CalculatorWalkerListener: CalculatorGrammarBaseListener() {
   private lateinit var expr: String
@@ -18,7 +18,7 @@ class CalculatorWalkerListener: CalculatorGrammarBaseListener() {
     }
     values.clear()
     resultValuesMap.clear()
-    val logger = LogManager.getLogger()
+    val logger = KotlinLogging.logger{}
     logger.info("result: ${expr}")
     return expr
   }

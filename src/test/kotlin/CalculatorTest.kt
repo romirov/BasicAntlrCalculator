@@ -1,12 +1,6 @@
-import org.antlr.v4.runtime.tree.ParseTreeWalker
-import org.apache.logging.log4j.LogManager
 import org.junit.jupiter.api.Test
 import parser.CalculatorService
-import parser.ExpressionParser
-import parser.listener.CalculatorWalkerListener
-import java.util.logging.Logger
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class CalculatorTest {
   private val calculatorService = CalculatorService()

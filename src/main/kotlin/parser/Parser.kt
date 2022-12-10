@@ -2,15 +2,15 @@ package parser
 
 import CalculatorGrammarLexer
 import CalculatorGrammarParser
+import mu.KotlinLogging
 import org.antlr.v4.runtime.CharStreams
 import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTree
-import org.apache.logging.log4j.LogManager
 import parser.listener.ThrowingErrorListener
 
 object ExpressionParser {
   fun parse(stringToParse: String): ParseTree {
-    val logger = LogManager.getLogger()
+    val logger = KotlinLogging.logger{}
     val lexerInterpreter = CalculatorGrammarLexer(CharStreams.fromString(stringToParse))
     lexerInterpreter.addErrorListener(ThrowingErrorListener())
     val tokens = CommonTokenStream(lexerInterpreter)

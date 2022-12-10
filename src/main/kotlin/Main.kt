@@ -1,7 +1,7 @@
-fun main(args: Array<String>) {
-  println("Hello World!")
+import mu.KotlinLogging
+import parser.CalculatorService
 
-  // Try adding program arguments via Run/Debug configuration.
-  // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-  println("Program arguments: ${args.joinToString()}")
+fun main(args: Array<String>) {
+  val logger = KotlinLogging.logger{}
+  readLine()?.let{logger.info(CalculatorService().calculate(it).toString())}
 }
