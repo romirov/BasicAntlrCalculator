@@ -2,21 +2,24 @@ package parser.listener
 
 import CalculatorGrammarBaseListener
 import CalculatorGrammarParser
+import org.antlr.v4.runtime.RuleContext
 import org.apache.logging.log4j.LogManager
 
 class CalculatorWalkerListener: CalculatorGrammarBaseListener() {
-  private val logger = LogManager.getLogger()
+  private lateinit var expr: String
   private val values = mutableListOf<Double>()
-  private lateinit var expr:String
-  private val parenthesesValuesMap = mutableMapOf<String, String>()
+  private val resultValuesMap = mutableMapOf<String, Double>()
   private var isCalculationsMade = false
 
   fun getRezult(): String {
-    parenthesesValuesMap.forEach {key, value ->
-      expr = expr.replace(key,value)
+    val reverseKeyList = resultValuesMap.keys.reversed()
+    reverseKeyList.forEach{expression ->
+      expr = expr.replace(expression, resultValuesMap.get(expression).toString())
     }
-    parenthesesValuesMap.clear()
-    logger.info(expr)
+    values.clear()
+    resultValuesMap.clear()
+    val logger = LogManager.getLogger()
+    logger.info("result: ${expr}")
     return expr
   }
 
@@ -29,52 +32,55 @@ class CalculatorWalkerListener: CalculatorGrammarBaseListener() {
   }
 
   override fun exitParen_expression(ctx: CalculatorGrammarParser.Paren_expressionContext?) {
-    if (isCalculationsMade) {
-      ctx?.text?.let { parenthesesValuesMap.put(it, values.last().toString()) }
-      isCalculationsMade = false
-    }
-    if (values.isNotEmpty())
-      values.removeLast()
+    addValuesToResultMapByCondition(ctx)
+  }
+
+  override fun exitParentheses(ctx: CalculatorGrammarParser.ParenthesesContext?) {
+    addValuesToResultMapByCondition(ctx)
   }
 
   override fun exitCalculation(ctx: CalculatorGrammarParser.CalculationContext?) {
+    addValuesToResultMapByCondition(ctx)
+  }
+
+  private fun addValuesToResultMapByCondition(ctx: RuleContext?) {
     if (isCalculationsMade) {
-      ctx?.text?.let { parenthesesValuesMap.put(it, values.last().toString()) }
+      ctx?.text?.let { resultValuesMap.put(it, values.last()) }
       isCalculationsMade = false
     }
-    if (values.isNotEmpty())
-      values.removeLast()
+  }
+  override fun exitMultiplicationOrDivisionParen(ctx: CalculatorGrammarParser.MultiplicationOrDivisionParenContext?) {
+    ctx?.operation?.let { calculate(it.type) }
+    addValuesToResultMapByCondition(ctx)
+  }
+
+  override fun exitAdditionOrSubtractionParen(ctx: CalculatorGrammarParser.AdditionOrSubtractionParenContext?) {
+    ctx?.operation?.let { calculate(it.type) }
+    addValuesToResultMapByCondition(ctx)
   }
 
   override fun exitMultiplicationOrDivision(ctx: CalculatorGrammarParser.MultiplicationOrDivisionContext?) {
-    if (values.size > 1) {
-      val valuesIterator = values.iterator()
-      val right = valuesIterator.next()
-      valuesIterator.remove()
-      val left = valuesIterator.next()
-      valuesIterator.remove()
-
-      when (ctx?.operation?.type) {
-        CalculatorGrammarParser.MUL -> values.add(right * left)
-        CalculatorGrammarParser.DIV -> values.add(right / left)
-      }
-
-      isCalculationsMade = true
-    }
+    ctx?.operation?.let { calculate(it.type) }
   }
 
   override fun exitAdditionOrSubtraction(ctx: CalculatorGrammarParser.AdditionOrSubtractionContext?) {
+    ctx?.operation?.let { calculate(it.type) }
+  }
+
+  private fun calculate(operationType: Int) {
     if (values.size > 1) {
-      val valuesIterator = values.iterator()
-      val right = valuesIterator.next()
-      valuesIterator.remove()
-      val left = valuesIterator.next()
-      valuesIterator.remove()
-      when (ctx?.operation?.type) {
+      val right = values.get(values.lastIndex - 1)
+      values.removeAt(values.lastIndex - 1)
+
+      val left = values.get(values.lastIndex)
+      values.removeAt(values.lastIndex)
+
+      when (operationType) {
+        CalculatorGrammarParser.MUL -> values.add(right * left)
+        CalculatorGrammarParser.DIV -> values.add(right / left)
         CalculatorGrammarParser.ADD -> values.add(right + left)
         CalculatorGrammarParser.SUB -> values.add(right - left)
       }
-
       isCalculationsMade = true
     }
   }

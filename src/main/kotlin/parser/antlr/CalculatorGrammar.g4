@@ -25,7 +25,9 @@ calculation
  * allowing for even more fine-grained control.
  */
 expression
-   : paren_expression                                                                           # Parentheses
+   : left_expr=expression operation=(MUL | DIV) right_expr=expression                           # MultiplicationOrDivisionParen
+   | left_expr=expression operation=(ADD | SUB) right_expr=expression                           # AdditionOrSubtractionParen
+   | paren_expression                                                                           # Parentheses
    | left_expr=expression operation=(MUL | DIV) right_expr=expression                           # MultiplicationOrDivision
    | left_expr=expression operation=(ADD | SUB) right_expr=expression                           # AdditionOrSubtraction
    | number                                                                                     # NumberInExpression

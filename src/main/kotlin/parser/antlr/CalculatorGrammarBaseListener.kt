@@ -79,6 +79,38 @@ open class CalculatorGrammarBaseListener : CalculatorGrammarListener {
    *
    * The default implementation does nothing.
    */
+  override fun enterMultiplicationOrDivisionParen(ctx: MultiplicationOrDivisionParenContext?) {}
+
+  /**
+   * {@inheritDoc}
+   *
+   *
+   * The default implementation does nothing.
+   */
+  override fun exitMultiplicationOrDivisionParen(ctx: MultiplicationOrDivisionParenContext?) {}
+
+  /**
+   * {@inheritDoc}
+   *
+   *
+   * The default implementation does nothing.
+   */
+  override fun enterAdditionOrSubtractionParen(ctx: AdditionOrSubtractionParenContext?) {}
+
+  /**
+   * {@inheritDoc}
+   *
+   *
+   * The default implementation does nothing.
+   */
+  override fun exitAdditionOrSubtractionParen(ctx: AdditionOrSubtractionParenContext?) {}
+
+  /**
+   * {@inheritDoc}
+   *
+   *
+   * The default implementation does nothing.
+   */
   override fun enterParentheses(ctx: ParenthesesContext?) {}
 
   /**
@@ -120,22 +152,6 @@ open class CalculatorGrammarBaseListener : CalculatorGrammarListener {
    * The default implementation does nothing.
    */
   override fun exitNumber(ctx: NumberContext?) {}
-
-  /**
-   * {@inheritDoc}
-   *
-   *
-   * The default implementation does nothing.
-   */
-  override fun enterVariable(ctx: CalculatorGrammarParser.VariableContext?) {}
-
-  /**
-   * {@inheritDoc}
-   *
-   *
-   * The default implementation does nothing.
-   */
-  override fun exitVariable(ctx: CalculatorGrammarParser.VariableContext?) {}
 
   /**
    * {@inheritDoc}
