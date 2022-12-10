@@ -8,7 +8,7 @@ import org.antlr.v4.runtime.CommonTokenStream
 import org.antlr.v4.runtime.tree.ParseTree
 import parser.listener.ThrowingErrorListener
 
-object ExpressionParser {
+object CalculatorExpressionParser {
   fun parse(stringToParse: String): ParseTree {
     val logger = KotlinLogging.logger{}
     val lexerInterpreter = CalculatorGrammarLexer(CharStreams.fromString(stringToParse))
