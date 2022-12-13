@@ -4,7 +4,7 @@ import org.junit.jupiter.api.assertThrows
 import parser.CalculatorExpressionParser
 import kotlin.test.assertNotNull
 
-class CalculatorParcerTest {
+class CalculatorParserTest {
   @Test
   fun parserTestsWithotException(){
     assertNotNull(CalculatorExpressionParser.parse(stringToParse = "2 * 2"))
