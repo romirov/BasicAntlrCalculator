@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="CalculatorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-12-13T20:10:28" hostname="fuji" time="0.329">
+  <properties/>
+  <testcase name="simpleTest()" classname="CalculatorTest" time="0.329"/>
+  <system-out><![CDATA[23:10:28.492 [Test worker] INFO  parser.CalculatorExpressionParser MDC= - parse tree: (calculation (expression (expression (number 1)) + (expression (number 1))) <EOF>)
+23:10:28.507 [Test worker] INFO  p.listener.CalculatorWalkerListener MDC= - result: 2.0
+23:10:28.508 [Test worker] INFO  parser.CalculatorExpressionParser MDC= - parse tree: (calculation (expression (number 2.0)) <EOF>)
+23:10:28.521 [Test worker] INFO  parser.CalculatorExpressionParser MDC= - parse tree: (calculation (expression (expression (paren_expression ( (expression (expression (number 1)) + (expression (number 1))) ))) / (expression (number 2))) <EOF>)
+23:10:28.522 [Test worker] INFO  p.listener.CalculatorWalkerListener MDC= - result: 1.0
+23:10:28.522 [Test worker] INFO  parser.CalculatorExpressionParser MDC= - parse tree: (calculation (expression (number 1.0)) <EOF>)
+23:10:28.527 [Test worker] INFO  parser.CalculatorExpressionParser MDC= - parse tree: (calculation (expression (paren_expression ( (expression (expression (number 1)) + (expression (number 1))) )) * (paren_expression ( (expression (expression (number 1)) + (expression (number 1))) ))) <EOF>)
+23:10:28.528 [Test worker] INFO  p.listener.CalculatorWalkerListener MDC= - result: 4.0<EOF>
+23:10:28.528 [Test worker] INFO  parser.CalculatorExpressionParser MDC= - parse tree: (calculation (expression (number 4.0)) <EOF>)
+23:10:28.536 [Test worker] INFO  parser.CalculatorExpressionParser MDC= - parse tree: (calculation (expression (expression (paren_expression ( (expression (expression (paren_expression ( (expression (expression (number 1)) + (expression (number 1))) )) * (paren_expression ( (expression (expression (number 1)) + (expression (number 1))) ))) + (expression (paren_expression ( (expression (expression (number 1)) + (expression (number 1))) )))) ))) / (expression (number 2))) <EOF>)
+23:10:28.537 [Test worker] INFO  p.listener.CalculatorWalkerListener MDC= - result: 3.0
+23:10:28.538 [Test worker] INFO  parser.CalculatorExpressionParser MDC= - parse tree: (calculation (expression (number 3.0)) <EOF>)
+23:10:28.543 [Test worker] INFO  parser.CalculatorExpressionParser MDC= - parse tree: (calculation (expression (expression (expression (paren_expression ( (expression (expression (number 1)) + (expression (number 1))) )) * (paren_expression ( (expression (expression (number 1)) + (expression (number 1))) ))) + (expression (paren_expression ( (expression (expression (number 1)) + (expression (number 1))) )) * (paren_expression ( (expression (expression (number 1)) + (expression (number 1))) )))) + (expression (number 1))) <EOF>)
+23:10:28.544 [Test worker] INFO  p.listener.CalculatorWalkerListener MDC= - result: 9.0
+23:10:28.545 [Test worker] INFO  parser.CalculatorExpressionParser MDC= - parse tree: (calculation (expression (number 9.0)) <EOF>)
+23:10:28.552 [Test worker] INFO  parser.CalculatorExpressionParser MDC= - parse tree: (calculation (expression (paren_expression ( (expression (expression (paren_expression ( (expression (expression (number 1)) + (expression (number 1))) )) * (paren_expression ( (expression (expression (number 1)) + (expression (number 1))) ))) + (expression (paren_expression ( (expression (expression (number 1)) + (expression (number 1))) )))) )) + (paren_expression ( (expression (expression (paren_expression ( (expression (expression (number 1)) + (expression (number 1))) ))) + (expression (number 1))) ))) <EOF>)
+23:10:28.553 [Test worker] INFO  p.listener.CalculatorWalkerListener MDC= - result: 9.0<EOF>
+23:10:28.553 [Test worker] INFO  parser.CalculatorExpressionParser MDC= - parse tree: (calculation (expression (number 9.0)) <EOF>)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
