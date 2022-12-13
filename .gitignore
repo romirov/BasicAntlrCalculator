@@ -1,22 +1,16 @@
-# Compiled class file
-*.class
+# Intellij
+.idea/
+*.iml
+*.iws
+!.idea/runConfigurations
+!.idea/runConfigurations/*
 
-# Log file
-*.log
+# Maven
+log/
+target/
 
-# BlueJ files
-*.ctxt
+#Gradle
+.gradle
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-hs_err_pid*
+#Other
+build
