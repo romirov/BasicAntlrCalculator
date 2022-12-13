@@ -10,8 +10,9 @@ class CalculatorService {
     val listener = CalculatorWalkerListener()
     while (parseTree.getChild(0).childCount != 1) {
       walker.walk(listener, parseTree)
-      parseTree = CalculatorExpressionParser.parse(stringToParse = listener.getRezult())
+      parseTree = CalculatorExpressionParser.parse(stringToParse = listener.getRezult().replace("<EOF>", ""))
     }
-    return parseTree.text.toDouble()
+    val result = parseTree.text.replace("<EOF>", "")
+    return result.toDouble()
   }
 }

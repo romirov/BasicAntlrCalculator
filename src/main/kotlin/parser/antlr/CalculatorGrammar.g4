@@ -1,7 +1,7 @@
 grammar CalculatorGrammar;
 
 calculation
-   : expression*
+   : expression* EOF
    ;
 
 /*
@@ -25,8 +25,8 @@ calculation
  * allowing for even more fine-grained control.
  */
 expression
-   : left_expr=expression operation=(MUL | DIV) right_expr=expression                           # MultiplicationOrDivisionParen
-   | left_expr=expression operation=(ADD | SUB) right_expr=expression                           # AdditionOrSubtractionParen
+   : left_expr=paren_expression operation=(MUL | DIV) right_expr=paren_expression               # MultiplicationOrDivisionParen
+   | left_expr=paren_expression operation=(ADD | SUB) right_expr=paren_expression               # AdditionOrSubtractionParen
    | paren_expression                                                                           # Parentheses
    | left_expr=expression operation=(MUL | DIV) right_expr=expression                           # MultiplicationOrDivision
    | left_expr=expression operation=(ADD | SUB) right_expr=expression                           # AdditionOrSubtraction

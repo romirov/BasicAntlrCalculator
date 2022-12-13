@@ -14,7 +14,6 @@ class CalculatorParserTest {
     assertNotNull(CalculatorExpressionParser.parse(stringToParse = "(2 + 2) * 2"))
     assertNotNull(CalculatorExpressionParser.parse(stringToParse = "(2 + 2) * (2 / 2)"))
     assertNotNull(CalculatorExpressionParser.parse(stringToParse = "((2 + 2) * (2 / 2)) - 2"))
-    assertNotNull(CalculatorExpressionParser.parse(stringToParse = "(2 ^ 2 * (2 / 2)) - 2"))
   }
 
   @Test
